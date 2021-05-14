@@ -26,7 +26,8 @@ try {
     #else {
     #    write-log "Error locating the Teams executable"
     #}
-    C:\temp\Teams_windows_x64.exe
+    $teams = "C:\temp\Teams_windows_x64.exe"
+    Invoke-Expression $teams
 }
 catch {
     $ErrorMessage = $_.Exception.message
