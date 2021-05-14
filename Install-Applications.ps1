@@ -19,13 +19,14 @@ function Write-Log {
 
 #region DoD_Teams
 try {
-    Start-Process -filepath msiexec.exe -Wait -ErrorAction Stop -ArgumentList '/i', 'c:\temp\Teams_windows_x64.exe', '/quiet'
-    if (Test-Path "C:\Program Files (x86)\Teams Installer\Teams.exe") {
-        Write-Log "Teams has been installed"
-    }
-    else {
-        write-log "Error locating the Teams executable"
-    }
+    #Start-Process -filepath msiexec.exe -Wait -ErrorAction Stop -ArgumentList '/i', 'c:\temp\Teams_windows_x64.exe', '/quiet'
+    #if (Test-Path "C:\Program Files (x86)\Teams Installer\Teams.exe") {
+    #    Write-Log "Teams has been installed"
+    #}
+    #else {
+    #    write-log "Error locating the Teams executable"
+    #}
+    C:\temp\Teams_windows_x64.exe
 }
 catch {
     $ErrorMessage = $_.Exception.message
