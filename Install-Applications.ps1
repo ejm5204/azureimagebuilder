@@ -19,19 +19,17 @@ function Write-Log {
 
 #region DoD_Teams
 try {
-    #Start-Process -filepath msiexec.exe -Wait -ErrorAction Stop -ArgumentList '/i', 'c:\temp\Teams_windows_x64.exe', '/quiet'
-    #if (Test-Path "C:\Program Files (x86)\Teams Installer\Teams.exe") {
-    #    Write-Log "Teams has been installed"
-    #}
-    #else {
-    #    write-log "Error locating the Teams executable"
-    #}
-    $teams = "C:\temp\Teams_windows_x64.exe"
-    Invoke-Expression $teams
+    Start-Process -filepath msiexec.exe -Wait -ErrorAction Stop -ArgumentList '/i', 'c:\temp\ChromeSetup.exe', '/quiet'
+    if (Test-Path "C:\Program Files\Google\Chrome\Application\chrome.exe") {
+        Write-Log "Chrome has been installed"
+    }
+    else {
+        write-log "Error locating the Google Chrome executable"
+    }
 }
 catch {
     $ErrorMessage = $_.Exception.message
-    write-log "Error installing Teams: $ErrorMessage"
+    write-log "Error installing Chrome: $ErrorMessage"
 }
 #endregion
 
