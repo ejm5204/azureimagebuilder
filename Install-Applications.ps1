@@ -33,6 +33,22 @@ catch {
 }
 #endregion
 
+#region DoD Teams
+try {
+    Start-Process -filepath msiexec.exe -Wait -ErrorAction Stop -ArgumentList '/i', 'c:\temp\Teams_windows_x64.msi', '/quiet'
+    if (Test-Path "C:\Program Files (x86)\Teams Installer\Teams.exe") {
+        Write-Log "DoD Teams has been installed"
+    }
+    else {
+        write-log "Error locating the DoD Teams executable"
+    }
+}
+catch {
+    $ErrorMessage = $_.Exception.message
+    write-log "Error installing DoD Teams: $ErrorMessage"
+}
+#endregion
+
 #region Sysprep Fix
 # Fix for first login delays due to Windows Module Installer
 try {
