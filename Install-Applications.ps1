@@ -19,8 +19,7 @@ function Write-Log {
 
 #region DoD_Teams
 try {
-    #Start-Process -filepath msiexec.exe -Wait -ErrorAction Stop -ArgumentList '/i', 'c:\temp\ChromeSetup.exe', '/quiet'
-    msiexec /i 'c:\temp\ChromeSetup.exe' /quiet
+    Start-Process -filepath 'C:\temp\ChromeSetup.exe' -Wait -ErrorAction Stop
     if (Test-Path "C:\Program Files\Google\Chrome\Application\chrome.exe") {
         Write-Log "Chrome has been installed"
     }
