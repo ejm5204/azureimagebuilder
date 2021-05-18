@@ -61,3 +61,13 @@ catch {
     write-log "Error updating script: $ErrorMessage"
 }
 #endregion
+
+#region Regedit for DoD Teams
+# If the customer tenant is on the GCCH or DoD clouds, the customer should
+# set the intial endpoint in the registry by adding the CloudType value to
+# HKEY_CURRENT_USER\SOFTWARE\Policies\Microsoft\Office\16.0\Teams key in
+# the registry. The type for CloudType is DWORD and values are (0 = Unset)
+# , 1 = Commercial, 2 = GCC, 3 = GCCH, 4 = DOD). Setting the endpoint with
+# the registry keys restricts Teams to connecting to the correct cloud
+# endpoint for pre-sign-in connectivity with Teams.
+#endregion
