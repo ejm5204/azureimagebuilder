@@ -36,6 +36,7 @@ catch {
 #region DoD Teams
 try {
     Start-Process -filepath msiexec.exe -Wait -ErrorAction Stop -ArgumentList '/i', 'c:\temp\Teams_windows_x64.msi', '/quiet'
+    & "C:\Program Files (x86)\Teams Installer\Teams.exe"
     if (Test-Path "C:\Program Files (x86)\Teams Installer\Teams.exe") {
         Write-Log "DoD Teams has been installed"
     }
