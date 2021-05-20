@@ -34,7 +34,7 @@ catch {
 #endregion
 
 #region DoD Teams
-try {
+<# try {
     Start-Process -filepath msiexec.exe -Wait -ErrorAction Stop -ArgumentList '/i', 'c:\temp\Teams_windows_x64.msi', '/quiet'
     & "C:\Program Files (x86)\Teams Installer\Teams.exe"
     if (Test-Path "C:\Program Files (x86)\Teams Installer\Teams.exe") {
@@ -47,7 +47,7 @@ try {
 catch {
     $ErrorMessage = $_.Exception.message
     write-log "Error installing DoD Teams: $ErrorMessage"
-}
+} #>
 #endregion
 
 #region Sysprep Fix
@@ -71,3 +71,50 @@ catch {
 # the registry keys restricts Teams to connecting to the correct cloud
 # endpoint for pre-sign-in connectivity with Teams.
 #endregion
+
+<# ,
+          {
+            "type": "PowerShell",
+            "name": "GetArchive",
+            "inline": [
+              "c:\\temp\\azcopy.exe copy '' c:\\temp\\software.zip",
+              "Expand-Archive 'c:\\temp\\software.zip' c:\\temp"
+            ]
+          },
+          {
+            "type": "PowerShell",
+            "name": "GetArchive",
+            "inline": [
+              "c:\\temp\\azcopy.exe copy '(New-AzStorageBlobSASToken -Container softwareresources -Blob DoD_Teams.zip -FullUri -Permission r -StartTime (Get-Date) -ExpiryTime (Get-Date).AddHours(4))' c:\\temp\\teamssoftware.zip",
+              "Expand-Archive 'c:\\temp\\teamssoftware.zip' c:\\temp"
+            ]
+          },
+          {
+            "type": "PowerShell",
+            "name": "GetArchive",
+            "inline": [
+              "New-Item -Type Directory -Path 'c:\\' -Name ODT",
+              "c:\\temp\\azcopy.exe copy '(New-AzStorageBlobSASToken -Container softwareresources -Blob ODT_tool.zip -FullUri -Permission r -StartTime (Get-Date) -ExpiryTime (Get-Date).AddHours(4))' c:\\temp\\ODT_tool.zip",
+              "Expand-Archive 'c:\\temp\\ODT_tool.zip' c:\\ODT"
+            ]
+          },
+          {
+            "type": "PowerShell",
+            "name": "RunInstallApplicationsScript",
+            "runElevated": true,
+            "inline": [
+              "c:/ODT/ODT_tool.exe /quiet /extract:c:/ODT",
+              "c:/ODT/setup.exe /download c:/ODT/installOfficeProPlus64.xml",
+              "c:/ODT/setup.exe /configure c:/ODT/installOfficeProPlus64.xml"
+            ]
+          },
+          {
+            "type": "PowerShell",
+            "name": "RunInstallApplicationsScript",
+            "runElevated": true,
+            "inline": [
+              "Start-Process -filepath msiexec.exe -Wait -ErrorAction Stop -ArgumentList '/i', 'c:\\temp\\ChromeSetup.msi', '/quiet'",
+              "Start-Process -filepath msiexec.exe -Wait -ErrorAction Stop -ArgumentList '/i', 'c:\\temp\\Teams_windows_x64.msi', '/quiet'",
+              "((Get-Content -path 'c:\\DeprovisioningScript.ps1' -Raw) -replace 'Sysprep.exe /oobe /generalize /quiet /quit', 'Sysprep.exe /oobe /generalize /quit /mode:vm' ) | Set-Content -Path 'c:\\DeprovisioningScript.ps1'"
+            ]
+          } #>
