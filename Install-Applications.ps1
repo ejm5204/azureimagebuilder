@@ -61,7 +61,7 @@ try {
       Write-Log "Office has been installed"
   }
   else {
-      write-log "Error Office executable"
+      write-log "Error with Office executable"
   }
 }
 catch {
