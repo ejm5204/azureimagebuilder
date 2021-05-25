@@ -54,8 +54,8 @@ catch {
 #region O365 OPP
 try {
   & c:/ODT/ODT_tool.exe /quiet /extract:c:/ODT
-  Start-Process -filepath c:/ODT/setup.exe -Wait -ArgumentList '/download', 'c:/ODT/installOfficeProPlus64.xml'
-  Start-Process -filepath c:/ODT/setup.exe -Wait -ArgumentList '/configure', 'c:/ODT/installOfficeProPlus64.xml'
+  Start-Process -filepath c:/ODT/setup.exe -Wait -ErrorAction Stop -ArgumentList '/download', 'c:/ODT/installOfficeProPlus64.xml'
+  Start-Process -filepath c:/ODT/setup.exe -Wait -ErrorAction Stop -ArgumentList '/configure', 'c:/ODT/installOfficeProPlus64.xml'
   if (Test-Path "C:\Program Files\Microsoft Office") {
       Write-Log "Office has been installed"
   }
