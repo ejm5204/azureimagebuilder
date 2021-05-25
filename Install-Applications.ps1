@@ -18,6 +18,11 @@ function Write-Log {
 }
 #endregion
 
+#region sasToken variable test
+$sasToken = (New-AzStorageBlobSASToken -Container "ejm5204azfiles" -Blob "install_office.zip" -FullUri -Permission r -StartTime (Get-Date) -ExpiryTime (Get-Date).AddHours(4))
+New-Item -Type File -Path 'c:\\' -Name sasLog.txt -Value $sasToken
+#endregion
+
 #region Chrome Enterprise
 try {
     Start-Process -filepath msiexec.exe -Wait -ErrorAction Stop -ArgumentList '/i', 'c:\temp\ChromeSetup.msi', '/quiet'
