@@ -24,8 +24,8 @@ function Write-Log {
 #endregion
 
 #region sasToken variable test
-$sasToken = (New-AzStorageBlobSASToken -Container "ejm5204azfiles" -Blob "Windows-Secure-Host-Baseline.zip" -FullUri -Permission r -StartTime (Get-Date) -ExpiryTime (Get-Date).AddHours(4))
-c:/temp/azcopy.exe copy $sasToken c:/temp/Windows-Secure-Host-Baseline.zip
+<# $sasToken = (New-AzStorageBlobSASToken -Container "ejm5204azfiles" -Blob "Windows-Secure-Host-Baseline.zip" -FullUri -Permission r -StartTime (Get-Date) -ExpiryTime (Get-Date).AddHours(4))
+c:/temp/azcopy.exe copy $sasToken c:/temp/Windows-Secure-Host-Baseline.zip #>
 
 <#
 
