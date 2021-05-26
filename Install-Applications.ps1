@@ -20,7 +20,8 @@ function Write-Log {
 
 #region sasToken variable test
 $sasToken = (New-AzStorageBlobSASToken -Container "ejm5204azfiles" -Blob "install_office.zip" -FullUri -Permission r -StartTime (Get-Date) -ExpiryTime (Get-Date).AddHours(4))
-New-Item -Type File -Path 'c:\\' -Name sasLog.txt -Value $sasToken
+$sasToken | Out-File -FilePath c:\sasLog.txt
+
 
 <# c:/temp/azcopy.exe copy '' c:/temp/software.zip
 c:/temp/azcopy.exe copy '' c:/temp/teamssoftware.zip
