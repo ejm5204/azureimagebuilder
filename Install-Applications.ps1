@@ -43,19 +43,6 @@ Unblock-File c:/temp/Secure-Host-Baseline
 
 #endregion
 
-#region SHB scripts
-
-try {
-  Import-Module -Name .\Windows-Secure-Host-Baseline\Scripts\GroupPolicy.psm1
-  Invoke-ApplySecureHostBaseline -Wait -ErrorAction Stop
-}
-catch {
-  $ErrorMessage = $_.Exception.message
-  Write-Log "Error with SHB scripts: $ErrorMessage"
-}
-
-#endregion
-
 #region DoD Teams
 try {
     Start-Process -filepath msiexec.exe -Wait -ErrorAction Stop -ArgumentList '/i', 'c:\temp\Teams_windows_x64.msi', '/quiet'
@@ -89,6 +76,19 @@ catch {
   $ErrorMessage = $_.Exception.message
   write-log "Error installing Office: $ErrorMessage"
 }
+#endregion
+
+#region SHB scripts
+
+try {
+  Import-Module -Name .\Windows-Secure-Host-Baseline\Scripts\GroupPolicy.psm1
+  Invoke-ApplySecureHostBaseline -Wait -ErrorAction Stop
+}
+catch {
+  $ErrorMessage = $_.Exception.message
+  Write-Log "Error with SHB scripts: $ErrorMessage"
+}
+
 #endregion
 
 #region Sysprep Fix
