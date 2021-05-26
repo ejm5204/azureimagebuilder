@@ -28,12 +28,11 @@ $sasToken | Out-File -FilePath c:\sasLog.txt
 c:/temp/azcopy.exe copy 'https://ejm5204azfiles.blob.core.windows.net/softwareresources/Chrome.zip?sp=r&st=2021-05-25T12:06:44Z&se=2021-06-01T20:06:44Z&spr=https&sv=2020-02-10&sr=b&sig=B%2Fb%2FUKTOtHoE8v2iy1gih6Dmnb8NES5ZabdofqFCS5o%3D' c:/temp/software.zip
 c:/temp/azcopy.exe copy 'https://ejm5204azfiles.blob.core.windows.net/softwareresources/DoD_Teams.zip?sp=r&st=2021-05-25T12:06:58Z&se=2021-06-01T20:06:58Z&spr=https&sv=2020-02-10&sr=b&sig=gJNk6Cw470x4ZBfMDc9USX%2FQEWdWa2Tj9gfcs71jjVM%3D' c:/temp/teamssoftware.zip
 c:/temp/azcopy.exe copy 'https://ejm5204azfiles.blob.core.windows.net/softwareresources/ODT_tool.zip?sp=r&st=2021-05-25T12:07:16Z&se=2021-06-01T20:07:16Z&spr=https&sv=2020-02-10&sr=b&sig=%2FiUWI6tW%2F1Xy%2F%2BwmlflDQ%2FSkAYTq1tN2LLm2hobtFsA%3D' c:/temp/ODT_tool.zip
-c:/temp/azcopy.exe copy '' c:/temp/Secure-Host-Baseline.zip
+c:/temp/azcopy.exe copy 'https://ejm5204azfiles.blob.core.windows.net/softwareresources/Windows-Secure-Host-Baseline.zip?sp=r&st=2021-05-26T11:04:46Z&se=2021-06-02T19:04:46Z&spr=https&sv=2020-02-10&sr=b&sig=QRp3vRHJb14BUbNtlkZbIomNfI6SQMW0iDrZ9N9BOUM%3D' c:/temp/Secure-Host-Baseline.zip
 Expand-Archive 'c:/temp/software.zip' c:/temp/
 Expand-Archive 'c:temp/teamssoftware.zip' c:/temp
 Expand-Archive 'c:/temp/ODT_tool.zip' c:/temp
 
-Following line may need to be fixed for file directory consistency (see line 39)
 Expand-Archive 'c:/temp/Secure-Host-Baseline.zip' c:/temp/Secure-Host-Baseline
 
 Unblock-File c:/temp/Secure-Host-Baseline
@@ -78,8 +77,8 @@ catch {
 #region O365 OPP
 try {
   & c:/ODT/ODT_tool.exe /quiet /extract:c:/ODT
-  Start-Process -filepath c:/ODT/setup.exe -Wait -ErrorAction SilentlyContinue -ArgumentList '/download', 'c:/ODT/installOfficeProPlus64.xml'
-  Start-Process -filepath c:/ODT/setup.exe -Wait -ErrorAction SilentlyContinue -ArgumentList '/configure', 'c:/ODT/installOfficeProPlus64.xml'
+  Start-Process -filepath c:/ODT/setup.exe -Wait -ErrorAction Stop -ArgumentList '/download', 'c:/ODT/installOfficeProPlus64.xml'
+  Start-Process -filepath c:/ODT/setup.exe -Wait -ErrorAction Stop -ArgumentList '/configure', 'c:/ODT/installOfficeProPlus64.xml'
   if (Test-Path "C:\Program Files\Microsoft Office") {
       Write-Log "Office has been installed"
   }
