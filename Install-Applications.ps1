@@ -46,7 +46,7 @@ Unblock-File c:/temp/Secure-Host-Baseline
 #region SHB scripts
 
 try {
-  Import-Module -Name .\Windows-Secure-Host-Baseline\Scripts\GroupPolicy.psm1 -Wait -ErrorAction Stop
+  Import-Module -Name .\Windows-Secure-Host-Baseline\Scripts\GroupPolicy.psm1
   Invoke-ApplySecureHostBaseline -Wait -ErrorAction Stop
 }
 catch {
