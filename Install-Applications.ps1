@@ -46,7 +46,7 @@ Unblock-File c:/temp/Secure-Host-Baseline
 #endregion
 
 #region Chrome Enterprise
-try {
+<# try {
     Start-Process -filepath msiexec.exe -Wait -ErrorAction Stop -ArgumentList '/i', 'c:\temp\ChromeSetup.msi', '/quiet'
     if (Test-Path "C:\Program Files\Google\Chrome\Application\chrome.exe") {
         Write-Log "Chrome has been installed"
@@ -58,7 +58,7 @@ try {
 catch {
     $ErrorMessage = $_.Exception.message
     write-log "Error installing Chrome: $ErrorMessage"
-}
+} #>
 #endregion
 
 #region DoD Teams
