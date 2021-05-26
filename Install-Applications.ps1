@@ -2,7 +2,7 @@
 #
 # Applications to install:
 #
-# Enterprise Chrome
+# SHB scripts
 # DoD Teams: https://dod.teams.microsoft.us/downloads/desktopurl?env=production&plat=windows&arch=x64&managedInstaller=true&download=true
 # O365 OPP
 # 
@@ -24,8 +24,9 @@ function Write-Log {
 #endregion
 
 #region sasToken variable test
-<# $sasToken = (New-AzStorageBlobSASToken -Container "ejm5204azfiles" -Blob "Windows-Secure-Host-Baseline.zip" -FullUri -Permission r -StartTime (Get-Date) -ExpiryTime (Get-Date).AddHours(4))
-c:/temp/azcopy.exe copy $sasToken c:/temp/Windows-Secure-Host-Baseline.zip #>
+$sasToken = (New-AzStorageBlobSASToken -Container "ejm5204azfiles" -Blob "Windows-Secure-Host-Baseline.zip" -FullUri -Permission r -StartTime (Get-Date) -ExpiryTime (Get-Date).AddHours(4))
+New-Item -ItemType File -Value "$sasToken"
+#c:/temp/azcopy.exe copy $sasToken c:/temp/Windows-Secure-Host-Baseline.zip
 
 <#
 
@@ -45,20 +46,17 @@ Unblock-File c:/temp/Secure-Host-Baseline
 
 #endregion
 
-#region Chrome Enterprise
-<# try {
-    Start-Process -filepath msiexec.exe -Wait -ErrorAction Stop -ArgumentList '/i', 'c:\temp\ChromeSetup.msi', '/quiet'
-    if (Test-Path "C:\Program Files\Google\Chrome\Application\chrome.exe") {
-        Write-Log "Chrome has been installed"
-    }
-    else {
-        write-log "Error locating the Google Chrome executable"
-    }
+#region SHB scripts
+
+try {
+  Import-Module -Name .\Windows-Secure-Host-Baseline\Scripts\GroupPolicy.psm1 -Wait -ErrorAction Stop
+  Invoke-ApplySecureHostBaseline -Wait -ErrorAction Stop
 }
 catch {
-    $ErrorMessage = $_.Exception.message
-    write-log "Error installing Chrome: $ErrorMessage"
-} #>
+  $ErrorMessage = $_.Exception.message
+  Write-Log "Error with SHB scripts: $ErrorMessage"
+}
+
 #endregion
 
 #region DoD Teams
