@@ -23,21 +23,6 @@ function Write-Log {
 }
 #endregion
 
-<#
-
-c:/temp/azcopy.exe copy 'https://ejm5204azfiles.blob.core.windows.net/softwareresources/DoD_Teams.zip?sp=r&st=2021-05-25T12:06:58Z&se=2021-06-01T20:06:58Z&spr=https&sv=2020-02-10&sr=b&sig=gJNk6Cw470x4ZBfMDc9USX%2FQEWdWa2Tj9gfcs71jjVM%3D' c:/temp/teamssoftware.zip
-c:/temp/azcopy.exe copy 'https://ejm5204azfiles.blob.core.windows.net/softwareresources/ODT_tool.zip?sp=r&st=2021-05-25T12:07:16Z&se=2021-06-01T20:07:16Z&spr=https&sv=2020-02-10&sr=b&sig=%2FiUWI6tW%2F1Xy%2F%2BwmlflDQ%2FSkAYTq1tN2LLm2hobtFsA%3D' c:/temp/ODT_tool.zip
-c:/temp/azcopy.exe copy 'https://ejm5204azfiles.blob.core.windows.net/softwareresources/Windows-Secure-Host-Baseline.zip?sp=r&st=2021-05-26T11:04:46Z&se=2021-06-02T19:04:46Z&spr=https&sv=2020-02-10&sr=b&sig=QRp3vRHJb14BUbNtlkZbIomNfI6SQMW0iDrZ9N9BOUM%3D' c:/temp/Secure-Host-Baseline.zip
-Expand-Archive 'c:temp/teamssoftware.zip' c:/temp
-Expand-Archive 'c:/temp/ODT_tool.zip' c:/temp
-Expand-Archive 'c:/temp/Secure-Host-Baseline.zip' c:/temp/Secure-Host-Baseline
-
-Unblock-File c:/temp/Secure-Host-Baseline
-
-#>
-
-#endregion
-
 #region DoD Teams
 try {
     Start-Process -filepath msiexec.exe -Wait -ErrorAction Stop -ArgumentList '/i', 'c:\temp\Teams_windows_x64.msi', '/quiet'
