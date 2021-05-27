@@ -23,11 +23,6 @@ function Write-Log {
 }
 #endregion
 
-#region sasToken variable test
-$sasToken = (New-AzStorageBlobSASToken -Container "ejm5204azfiles" -Blob "Windows-Secure-Host-Baseline.zip" -FullUri -Permission r -StartTime (Get-Date) -ExpiryTime (Get-Date).AddHours(4))
-New-Item -ItemType File -Value "$sasToken" -path c:\temp
-#c:/temp/azcopy.exe copy $sasToken c:/temp/Windows-Secure-Host-Baseline.zip
-
 <#
 
 c:/temp/azcopy.exe copy 'https://ejm5204azfiles.blob.core.windows.net/softwareresources/DoD_Teams.zip?sp=r&st=2021-05-25T12:06:58Z&se=2021-06-01T20:06:58Z&spr=https&sv=2020-02-10&sr=b&sig=gJNk6Cw470x4ZBfMDc9USX%2FQEWdWa2Tj9gfcs71jjVM%3D' c:/temp/teamssoftware.zip
@@ -61,10 +56,11 @@ catch {
 #endregion
 
 #region O365 OPP
+
 try {
   & c:/ODT/ODT_tool.exe /quiet /extract:c:/ODT
-  #Start-Process -filepath c:/ODT/setup.exe -Wait -ErrorAction Stop -ArgumentList '/download', 'c:/ODT/installOfficeProPlus64.xml'
-  Start-Process -filepath c:/ODT/setup.exe -Wait -ErrorAction Stop -ArgumentList '/configure', 'c:/ODT/installOfficeProPlus64.xml'
+  #Start-Process -filepath c:\ODT\setup.exe -Wait -ErrorAction Stop -ArgumentList '/download', 'c:/ODT/installOfficeProPlus64.xml'
+  Start-Process -filepath c:\ODT\setup.exe -Wait -ErrorAction Stop -ArgumentList '/configure', 'c:\ODT\installOfficeProPlus64.xml'
   if (Test-Path "C:\Program Files\Microsoft Office") {
       Write-Log "Office has been installed"
   }
