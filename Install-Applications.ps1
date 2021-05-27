@@ -78,19 +78,6 @@ catch {
 }
 #endregion
 
-#region SHB scripts
-
-try {
-  Import-Module -Name .\Windows-Secure-Host-Baseline\Scripts\GroupPolicy.psm1
-  Invoke-ApplySecureHostBaseline -Wait -ErrorAction Stop
-}
-catch {
-  $ErrorMessage = $_.Exception.message
-  Write-Log "Error with SHB scripts: $ErrorMessage"
-}
-
-#endregion
-
 #region Sysprep Fix
 # Fix for first login delays due to Windows Module Installer
 try {
