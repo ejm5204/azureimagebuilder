@@ -42,10 +42,10 @@ catch {
 
 #region O365 OPP
 
-<# try {
+try {
   & c:/ODT/ODT_tool.exe /quiet /extract:c:/ODT
-  Start-Process -filepath c:\ODT\setup.exe -Wait -ErrorAction Stop -ArgumentList '/download', 'c:/ODT/installOfficeProPlus64.xml'
-  Start-Process -filepath c:\ODT\setup.exe -Wait -ErrorAction Stop -ArgumentList '/configure', 'c:/ODT/installOfficeProPlus64.xml'
+  Start-Process -filepath "c:\ODT\setup.exe" -Wait -ErrorAction Stop -ArgumentList '/download', 'c:/ODT/installOfficeProPlus64.xml'
+  Start-Process -filepath "c:\ODT\setup.exe" -Wait -ErrorAction Stop -ArgumentList '/configure', 'c:/ODT/installOfficeProPlus64.xml'
   if (Test-Path "C:\Program Files\Microsoft Office") {
       Write-Log "Office has been installed"
   }
@@ -59,7 +59,7 @@ catch {
   write-log "Error installing Office: $ErrorMessage"
   write-log "Full error message: $fullErrorMessage"
 }
-#endregion #>
+#endregion
 
 #region Sysprep Fix
 # Fix for first login delays due to Windows Module Installer
