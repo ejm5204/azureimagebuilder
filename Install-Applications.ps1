@@ -70,7 +70,9 @@ try {
 }
 catch {
   $ErrorMessage = $_.Exception.message
+  $fullErrorMessage = $_.Exception
   write-log "Error installing Office: $ErrorMessage"
+  write-log "Full error message: $fullErrorMessage"
 }
 #endregion
 
