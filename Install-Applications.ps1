@@ -2,7 +2,6 @@
 #
 # Applications to install:
 #
-# SHB scripts
 # DoD Teams: https://dod.teams.microsoft.us/downloads/desktopurl?env=production&plat=windows&arch=x64&managedInstaller=true&download=true
 # O365 OPP
 # 
