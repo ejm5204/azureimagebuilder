@@ -4,6 +4,8 @@
 #
 # DoD Teams: https://dod.teams.microsoft.us/downloads/desktopurl?env=production&plat=windows&arch=x64&managedInstaller=true&download=true
 # O365 OPP
+# FSlogix
+# WVD Agents
 # 
 # If the customer tenant is on the GCCH or DoD clouds, the customer should
 # set the intial endpoint in the registry by adding the CloudType value to
@@ -37,9 +39,11 @@ catch {
     $ErrorMessage = $_.Exception.message
     write-log "Error installing DoD Teams: $ErrorMessage"
 }
+
+Get-Item -Path 'HKEY_CURRENT_USER\SOFTWARE\Policies\Microsoft\Office\16.0\Teams' | New-Item -Name 'CloudType' -Value "" -Force
 #endregion
 
-#region O365 OPP
+<# #region O365 OPP
 
 try {
   & c:/ODT/ODT_tool.exe /quiet /extract:c:/ODT
@@ -59,19 +63,49 @@ catch {
   write-log "Error installing Office: $ErrorMessage"
   write-log "Full error message: $fullErrorMessage"
 }
+#endregion #>
+
+#region fslogix install
+try {
+    Start-Process -filepath msiexec.exe -Wait -ErrorAction Stop -ArgumentList '/i', 'c:\temp\FSLogix_Apps_2.9.7654.46150.zip\x64\Release\FSLogixAppsSetup.exe', '/quiet'
+    if (Test-Path "C:\Program Files\FSLogix\Apps\frx.exe") {
+        Write-Log "FSLogix has been installed"
+    }
+    else {
+        Write-Log "Error installing FSLogix"
+    }
+}
+catch {
+    $ErrorMessage = $_.Exception.Message
+    Write-Log "Error installing FSLogix: $ErrorMessage"
+}
+# admx file move for policies?
 #endregion
 
-#region regedit for host pool registration
+#region regedit for FSLogix
+Set-Location -Path 'HKLM:\Software\FSLogix\Profiles'
+Get-Item -Path 'HKLM:\Software\FSLogix\Profiles' | New-Item -Name 'VHDLocations' -Value "\\ejm5204azfiles.file.core.windows.net\ejm5204azfiles\profiles" -Force
+#endregion
 
+#region install and registration for WVD agents
 $resourceGroupName = "AIRS_WVD_Logical_Components"
 $Hostpool = "AIRS_WVD_HostPool"
 $SubsciptionID = "c6973119-11cd-4828-ad30-5d84a7e7be7e"
     
 $GetToken = New-AzWvdRegistrationInfo -SubscriptionId $SubsciptionID -ResourceGroupName $resourceGroupName -HostPoolName $Hostpool -ExpirationTime (Get-Date).AddDays(14) -ErrorAction SilentlyContinue
+$token = $GetToken.Token
 
-Set-Location -Path 'HKLM:\Software\FSLogix\Profiles'
-Get-Item -Path 'HKLM:\Software\FSLogix\Profiles' | New-Item -Name 'VHDLocations' -Value "\\ejm5204azfiles.file.core.windows.net\ejm5204azfiles\profiles" $GetToken.Token -Force
-
+try {
+    msiexec.exe /i c:\temp\rdpbits\Microsoft.RDInfra.RDAgent.Installer-x64-1.0.2990.1500.msi /quiet
+    msiexec.exe /i c:\temp\rdpbits\Microsoft.RDInfra.RDAgentBootLoader.Installer-x64.msi /quiet
+    <# Set-Location -Path 'HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\RDInfraAgent'
+    Get-Item -Path 'HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\RDInfraAgent\IsRegistered'  #>
+    Write-Log "Agents have been run, check filepaths to confirm."
+}
+catch {
+    $ErrorMessage = $_.Exception.Message
+    Write-Log "Error with WVD agents: $ErrorMessage"
+}
 
 #endregion
 
