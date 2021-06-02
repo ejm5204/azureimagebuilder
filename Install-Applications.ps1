@@ -39,7 +39,7 @@ catch {
 }
 #endregion
 
-#region O365 OPP
+<# #region O365 OPP
 
 try {
   & c:/ODT/ODT_tool.exe /quiet /extract:c:/ODT
@@ -59,7 +59,7 @@ catch {
   write-log "Error installing Office: $ErrorMessage"
   write-log "Full error message: $fullErrorMessage"
 }
-#endregion
+#endregion #>
 
 #region Sysprep Fix
 # Fix for first login delays due to Windows Module Installer
