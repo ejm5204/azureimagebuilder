@@ -61,6 +61,20 @@ catch {
 }
 #endregion
 
+#region regedit for host pool registration
+
+$resourceGroupName = "AIRS_WVD_Logical_Components"
+$Hostpool = "AIRS_WVD_HostPool"
+$SubsciptionID = "c6973119-11cd-4828-ad30-5d84a7e7be7e"
+    
+$GetToken = New-AzWvdRegistrationInfo -SubscriptionId $SubsciptionID -ResourceGroupName $resourceGroupName -HostPoolName $Hostpool -ExpirationTime (Get-Date).AddDays(14) -ErrorAction SilentlyContinue
+
+Set-Location -Path 'HKLM:\Software\FSLogix\Profiles'
+Get-Item -Path 'HKLM:\Software\FSLogix\Profiles' | New-Item -Name 'VHDLocations' -Value "\\ejm5204azfiles.file.core.windows.net\ejm5204azfiles\profiles" $GetToken.Token -Force
+
+
+#endregion
+
 #region Sysprep Fix
 # Fix for first login delays due to Windows Module Installer
 try {
