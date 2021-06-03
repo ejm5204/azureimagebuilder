@@ -79,12 +79,12 @@ catch {
     $ErrorMessage = $_.Exception.Message
     Write-Log "Error installing FSLogix: $ErrorMessage"
 }
-# admx file move for policies?
 #endregion
 
 #region regedit for FSLogix
-Set-Location -Path 'HKLM:\Software\FSLogix\Profiles'
-Get-Item -Path 'HKLM:\Software\FSLogix\Profiles' | New-Item -Name 'VHDLocations' -Value "\\ejm5204azfiles.file.core.windows.net\ejm5204azfiles\profiles" -Force
+#Set-Location -Path 'HKLM:\Software\FSLogix\Profiles'
+#Get-Item -Path 'HKLM:\Software\FSLogix\Profiles' | New-Item -Name 'VHDLocations' -Value "\\ejm5204azfiles.file.core.windows.net\ejm5204azfiles\profiles" -Force
+New-ItemProperty -Path "HKLM:\Software\FSLogix\Profiles" -Name "VHDLocations" -Value "\\ejm5204azfiles.file.core.windows.net\ejm5204azfiles\profiles"
 #endregion
 
 #region install and registration for WVD agents
@@ -96,12 +96,12 @@ $GetToken = New-AzWvdRegistrationInfo -SubscriptionId $SubsciptionID -Resou
 $token = $GetToken.Token
 
 try {
-    msiexec.exe /i c:\temp\rdpbits\Microsoft.RDInfra.RDAgent.Installer-x64-1.0.2990.1500.msi /quiet
-    msiexec.exe /i c:\temp\rdpbits\Microsoft.RDInfra.RDAgentBootLoader.Installer-x64.msi /quiet
+    Start-Process -filepath msiexec.exe -Wait -ErrorAction Stop -ArgumentList '/i', 'c:\temp\rdpbits\Microsoft.RDInfra.RDAgent.Installer-x64-1.0.2990.1500.msi', '/quiet'
+    Start-Process -filepath msiexec.exe -Wait -ErrorAction Stop -ArgumentList '/i', 'c:\temp\rdpbits\Microsoft.RDInfra.RDAgentBootLoader.Installer-x64.msi', '/quiet'
     #Set-Location -Path 'HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\RDInfraAgent'
-    #Set-ItemProperty -Path 'HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\RDInfraAgent' -Name 'IsRegistered' -Value $token -Force
+    New-ItemProperty -Path "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\RDInfraAgent" -Name "IsRegistered" -Value $token -Force
     Write-Log "Agents have been run, check filepaths to confirm."
-    Write-Log "Token: $token"
+    Write-Log "Token: $token" #variable is not passed into log
 }
 catch {
     $ErrorMessage = $_.Exception.Message
