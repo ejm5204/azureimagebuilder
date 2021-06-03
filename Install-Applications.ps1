@@ -82,8 +82,6 @@ catch {
 #endregion
 
 #region regedit for FSLogix
-#Set-Location -Path 'HKLM:\Software\FSLogix\Profiles'
-#Get-Item -Path 'HKLM:\Software\FSLogix\Profiles' | New-Item -Name 'VHDLocations' -Value "\\ejm5204azfiles.file.core.windows.net\ejm5204azfiles\profiles" -Force
 New-ItemProperty -Path "HKLM:\Software\FSLogix\Profiles" -Name "VHDLocations" -Value "\\ejm5204azfiles.file.core.windows.net\ejm5204azfiles\profiles"
 #endregion
 
@@ -97,9 +95,8 @@ $token = $GetToken.Token
 
 try {
     Start-Process -filepath msiexec.exe -Wait -ErrorAction Stop -ArgumentList '/i', 'c:\temp\rdpbits\Microsoft.RDInfra.RDAgent.Installer-x64-1.0.2990.1500.msi', '/quiet'
-    Start-Process -filepath msiexec.exe -Wait -ErrorAction Stop -ArgumentList '/i', 'c:\temp\rdpbits\Microsoft.RDInfra.RDAgentBootLoader.Installer-x64.msi', '/quiet'
-    #Set-Location -Path 'HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\RDInfraAgent'
-    New-ItemProperty -Path "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\RDInfraAgent" -Name "IsRegistered" -Value $token -Force
+    Start-Process -filepath msiexec.exe -Wait -ErrorAction Stop -ArgumentList '/i', 'c:\temp\rdpbits\Microsoft.RDInfra.RDAgentBootLoader.Installer-x64 (7).msi', '/quiet'
+    #New-ItemProperty -Path "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\RDInfraAgent" -Name "IsRegistered" -Value $token -Force **this needs to be a reg key change**
     Write-Log "Agents have been run, check filepaths to confirm."
     Write-Log "Token: $token" #variable is not passed into log
 }
