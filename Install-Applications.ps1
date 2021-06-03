@@ -47,8 +47,8 @@ Get-Item -Path 'HKEY_CURRENT_USER\SOFTWARE\Policies\Microsoft\Office\16.0\Teams'
 
 try {
   & c:/ODT/ODT_tool.exe /quiet /extract:c:/ODT
-  #Start-Process -filepath "setup.exe" -WorkingDirectory "c:\ODT" -ArgumentList '/download', 'c:/ODT/installOfficeProPlus64.xml' -Wait -ErrorAction Stop
-  #Start-Process -filepath "setup.exe" -WorkingDirectory "c:\ODT" -ArgumentList '/configure', 'c:/ODT/installOfficeProPlus64.xml' -Wait -ErrorAction SilentlyContinue
+  Start-Process -filepath "setup.exe" -WorkingDirectory "c:\ODT" -ArgumentList '/download', 'c:/ODT/installOfficeProPlus64.xml' -Wait -ErrorAction Stop
+  Start-Process -filepath "setup.exe" -WorkingDirectory "c:\ODT" -ArgumentList '/configure', 'c:/ODT/installOfficeProPlus64.xml' -Wait -ErrorAction SilentlyContinue
   #Start-Process -filepath "setup.exe" -WorkingDirectory "c:\ODT" -ArgumentList '/configure', 'c:/ODT/installCustom.xml' -Wait -ErrorAction SilentlyContinue
   if (Test-Path "C:\Program Files\Microsoft Office") {
       Write-Log "Office has been installed"
@@ -95,7 +95,7 @@ $token = $GetToken.Token
 
 try {
     Start-Process -filepath msiexec.exe -Wait -ErrorAction Stop -ArgumentList '/i', 'c:\temp\rdpbits\Microsoft.RDInfra.RDAgent.Installer-x64-1.0.2990.1500.msi', '/quiet'
-    Start-Process -filepath msiexec.exe -Wait -ErrorAction Stop -ArgumentList '/i', 'c:\temp\rdpbits\Microsoft.RDInfra.RDAgentBootLoader.Installer-x64 (7).msi', '/quiet'
+    #Start-Process -filepath msiexec.exe -Wait -ErrorAction Stop -ArgumentList '/i', 'c:\temp\rdpbits\Microsoft.RDInfra.RDAgentBootLoader.Installer-x64 (7).msi', '/quiet'
     New-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\RDInfraAgent" -Name "IsRegistered" -Value 1
     New-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\RDInfraAgent" -Name "RegistrationToken" -Value $token
     Write-Log "Agents have been run, check filepaths to confirm."
