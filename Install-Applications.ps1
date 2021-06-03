@@ -98,9 +98,10 @@ $token = $GetToken.Token
 try {
     msiexec.exe /i c:\temp\rdpbits\Microsoft.RDInfra.RDAgent.Installer-x64-1.0.2990.1500.msi /quiet
     msiexec.exe /i c:\temp\rdpbits\Microsoft.RDInfra.RDAgentBootLoader.Installer-x64.msi /quiet
-    <# Set-Location -Path 'HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\RDInfraAgent'
-    Get-Item -Path 'HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\RDInfraAgent\IsRegistered'  #>
+    #Set-Location -Path 'HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\RDInfraAgent'
+    #Set-ItemProperty -Path 'HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\RDInfraAgent' -Name 'IsRegistered' -Value $token -Force
     Write-Log "Agents have been run, check filepaths to confirm."
+    Write-Log "Token: $token"
 }
 catch {
     $ErrorMessage = $_.Exception.Message
