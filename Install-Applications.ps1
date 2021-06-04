@@ -86,20 +86,16 @@ New-ItemProperty -Path "HKLM:\Software\FSLogix\Profiles" -Name "VHDLocations" -V
 #endregion
 
 #region install and registration for WVD agents
-$resourceGroupName = "AIRS_WVD_Logical_Components"
+<# $resourceGroupName = "AIRS_WVD_Logical_Components"
 $Hostpool = "AIRS_WVD_HostPool"
-$SubsciptionID = "c6973119-11cd-4828-ad30-5d84a7e7be7e"
-    
-$GetToken = New-AzWvdRegistrationInfo -SubscriptionId $SubsciptionID -ResourceGroupName $resourceGroupName -HostPoolName $Hostpool -ExpirationTime (Get-Date).AddDays(14) -ErrorAction SilentlyContinue
-$token = $GetToken.Token
+$SubscriptionID = "c6973119-11cd-4828-ad30-5d84a7e7be7e" #>
 
 try {
     Start-Process -filepath msiexec.exe -Wait -ErrorAction Stop -ArgumentList '/i', 'c:\temp\rdpbits\Microsoft.RDInfra.RDAgent.Installer-x64-1.0.2990.1500.msi', '/quiet'
     Start-Process -filepath msiexec.exe -Wait -ErrorAction Stop -ArgumentList '/i', 'c:\temp\rdpbits\Microsoft.RDInfra.RDAgentBootLoader.Installer-x64.msi', '/quiet'
     New-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\RDInfraAgent" -Name "IsRegistered" -Value 1
-    New-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\RDInfraAgent" -Name "RegistrationToken" -Value $token
+    #New-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\RDInfraAgent" -Name "RegistrationToken" -Value $token
     Write-Log "Agents have been run, check filepaths to confirm."
-    Write-Log "Token: $token" #variable is not passed into log
 }
 catch {
     $ErrorMessage = $_.Exception.Message
