@@ -43,7 +43,7 @@ catch {
 Get-Item -Path 'HKEY_CURRENT_USER\SOFTWARE\Policies\Microsoft\Office\16.0\Teams' | New-Item -Name 'CloudType' -Value "" -Force
 #endregion
 
-<# #region O365 OPP
+#region O365 OPP
 
 try {
   & c:/ODT/ODT_tool.exe /quiet /extract:c:/ODT
@@ -63,7 +63,7 @@ catch {
   write-log "Error installing Office: $ErrorMessage"
   write-log "Full error message: $fullErrorMessage"
 }
-#endregion #>
+#endregion
 
 #region fslogix install
 try {
@@ -83,6 +83,11 @@ catch {
 
 #region regedit for FSLogix
 New-ItemProperty -Path "HKLM:\Software\FSLogix\Profiles" -Name "VHDLocations" -Value "\\ejm5204azfiles.file.core.windows.net\ejm5204azfiles\profiles"
+#endregion
+
+#region write-log test for host pool token
+$hostPoolRegKey = (New-AzWvdRegistrationInfo -SubscriptionId $(SubscriptionID) -ResourceGroupName $(resourceGroupName) -HostPoolName $(Hostpool) -ExpirationTime (Get-Date).AddDays(14) -ErrorAction SilentlyContinue).Token
+Write-Log "$hostPoolRegKey"
 #endregion
 
 #region install and registration for WVD agents
