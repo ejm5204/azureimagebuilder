@@ -87,7 +87,7 @@ New-ItemProperty -Path "HKLM:\Software\FSLogix\Profiles" -Name "VHDLocations" -V
 
 #region write-log test for host pool token
 $hostPoolRegKey = (New-AzWvdRegistrationInfo -SubscriptionId $(SubscriptionID) -ResourceGroupName $(resourceGroupName) -HostPoolName $(Hostpool) -ExpirationTime (Get-Date).AddDays(14) -ErrorAction SilentlyContinue).Token
-Write-Log "$hostPoolRegKey"
+Write-Log "$hostPoolRegKey this is the host pool reg key"
 #endregion
 
 #region install and registration for WVD agents
@@ -99,7 +99,7 @@ try {
     Start-Process -filepath msiexec.exe -Wait -ErrorAction Stop -ArgumentList '/i', 'c:\temp\rdpbits\Microsoft.RDInfra.RDAgent.Installer-x64-1.0.2990.1500.msi', '/quiet'
     Start-Process -filepath msiexec.exe -Wait -ErrorAction Stop -ArgumentList '/i', 'c:\temp\rdpbits\Microsoft.RDInfra.RDAgentBootLoader.Installer-x64.msi', '/quiet'
     New-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\RDInfraAgent" -Name "IsRegistered" -Value 1
-    #New-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\RDInfraAgent" -Name "RegistrationToken" -Value $token
+    New-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\RDInfraAgent" -Name "RegistrationToken" -Value $token
     Write-Log "Agents have been run, check filepaths to confirm."
 }
 catch {
