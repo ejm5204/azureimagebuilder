@@ -97,7 +97,7 @@ try {
     New-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\RDInfraAgent" -Name "IsRegistered" -Value 1
     New-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\RDInfraAgent" -Name "RegistrationToken" -Value $token
     Write-Log "Agents have been run, check filepaths to confirm."
-    Write-Log "Test for updated image"
+    Write-Log "New image update #2"
 }
 catch {
     $ErrorMessage = $_.Exception.Message
