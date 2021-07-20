@@ -83,11 +83,7 @@ catch {
 
 #region regedit for FSLogix
 New-ItemProperty -Path "HKLM:\Software\FSLogix\Profiles" -Name "VHDLocations" -Value "\\ejm5204azfiles.file.core.windows.net\ejm5204azfiles\profiles"
-#endregion
-
-#region write-log test for host pool token
-$hostPoolRegKey = (New-AzWvdRegistrationInfo -SubscriptionId $(SubscriptionID) -ResourceGroupName $(resourceGroupName) -HostPoolName $(Hostpool) -ExpirationTime (Get-Date).AddDays(14) -ErrorAction SilentlyContinue).Token
-Write-Log "$hostPoolRegKey this is the host pool reg key"
+Set-ItemProperty -Path "HKLM:\SOFTWARE\\Microsoft\RDInfraAgent" -Name "RegistrationToken" -Value "eyJhbGciOiJSUzI1NiIsImtpZCI6Ijk3NkE4Q0I1MTQwNjkyM0E4MkU4QUQ3MUYzQjE4NzEyN0Y2OTRDOTkiLCJ0eXAiOiJKV1QifQ.eyJSZWdpc3RyYXRpb25JZCI6IjAyYmRkMDhmLTk4ODktNDM4My04NjBkLWJjM2I1ODE4ZjU4YiIsIkJyb2tlclVyaSI6Imh0dHBzOi8vcmRicm9rZXItZy11cy1yMC53dmQubWljcm9zb2Z0LmNvbS8iLCJEaWFnbm9zdGljc1VyaSI6Imh0dHBzOi8vcmRkaWFnbm9zdGljcy1nLXVzLXIwLnd2ZC5taWNyb3NvZnQuY29tLyIsIkVuZHBvaW50UG9vbElkIjoiNDVlMTIxZWEtYWEwYy00MzA5LTgzMjItNjdiYjhiZjc0YTE0IiwiR2xvYmFsQnJva2VyVXJpIjoiaHR0cHM6Ly9yZGJyb2tlci53dmQubWljcm9zb2Z0LmNvbS8iLCJHZW9ncmFwaHkiOiJVUyIsIm5iZiI6MTYyNjcxNjY0OSwiZXhwIjoxNjI3OTI2MjQ2LCJpc3MiOiJSREluZnJhVG9rZW5NYW5hZ2VyIiwiYXVkIjoiUkRtaSJ9.h6gDrtBcuQdI9WYy5N9iMnfUEf536pgkP1iYUsO81GTL7f3AA6SW9BJbDCzSmjtzjHdpJynKrTzx8OgT-I0tn4oMi8X5xCJBKIbECqca1umq8fPn5bu3Y7cwNeECpzuNXepjy6_DQ1yB0hjgJxQPhyLkYl-iN2Bfc_vnfdJMGART-pBgJy7cgYHjc3ojJQD53Bcr5nSMpO2VsWFYIlXt7LtfqSof_MqU8wl1QAeuL3R6WqH1aX4ScwIbkvL6crAxPWum8DDKSh_w7QdcIh-57g3jrE3uN8XhkF-B0pNsz7THL8mehqD1qFlCShMK6Pf9Lhp3voZm4i2HGVf_H3mcfg"
 #endregion
 
 #region install and registration for WVD agents
@@ -101,6 +97,7 @@ try {
     New-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\RDInfraAgent" -Name "IsRegistered" -Value 1
     New-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\RDInfraAgent" -Name "RegistrationToken" -Value $token
     Write-Log "Agents have been run, check filepaths to confirm."
+    Write-Log "Test for updated image"
 }
 catch {
     $ErrorMessage = $_.Exception.Message
