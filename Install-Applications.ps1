@@ -96,7 +96,7 @@ $hostPoolRegKey = (New-AzWvdRegistrationInfo -SubscriptionId $SubscriptionID -Re
 Set-AzContext "AIRS"
 Get-AzWvdRegistrationInfo -SubscriptionId $SubscriptionID -ResourceGroupName $resourceGroupName -HostPoolName $Hostpool #>
 
-try {
+<# try {
     Start-Process -filepath msiexec.exe -Wait -ErrorAction Stop -ArgumentList '/i', 'c:\temp\rdpbits\Microsoft.RDInfra.RDAgent.Installer-x64-1.0.2990.1500.msi', '/quiet', "/quiet", "/qn", "/norestart", "/passive", "REGISTRATIONTOKEN=eyJhbGciOiJSUzI1NiIsImtpZCI6Ijk3NkE4Q0I1MTQwNjkyM0E4MkU4QUQ3MUYzQjE4NzEyN0Y2OTRDOTkiLCJ0eXAiOiJKV1QifQ.eyJSZWdpc3RyYXRpb25JZCI6IjY0MzQwZDc5LTE3NWUtNDA0OS04ZmMwLTllOTJlMzVkN2M1NyIsIkJyb2tlclVyaSI6Imh0dHBzOi8vcmRicm9rZXItZy11cy1yMC53dmQubWljcm9zb2Z0LmNvbS8iLCJEaWFnbm9zdGljc1VyaSI6Imh0dHBzOi8vcmRkaWFnbm9zdGljcy1nLXVzLXIwLnd2ZC5taWNyb3NvZnQuY29tLyIsIkVuZHBvaW50UG9vbElkIjoiNDVlMTIxZWEtYWEwYy00MzA5LTgzMjItNjdiYjhiZjc0YTE0IiwiR2xvYmFsQnJva2VyVXJpIjoiaHR0cHM6Ly9yZGJyb2tlci53dmQubWljcm9zb2Z0LmNvbS8iLCJHZW9ncmFwaHkiOiJVUyIsIm5iZiI6MTYyNjc5ODYxMSwiZXhwIjoxNjI4MDA4MjA4LCJpc3MiOiJSREluZnJhVG9rZW5NYW5hZ2VyIiwiYXVkIjoiUkRtaSJ9.AOKhXBhqWXt5g6xVE9Bs29iGg4zdNPHKwvsYKJCxCfkW0BoknZHvCjSGs9pgoVh0p8vWnfwIJ2SnIwHaHBQMfSErLO3AGN-NtLSg-Rr46P6f1pNF-HkJk1gvjGs9XAhAic9OhG6Q8JEMJm2-HRFlIXN5WaOQSGvIyj5T490kWWIQ5T2L3z9qqe_iNTnwcuB8a5L5evDOjythfKINqm4os_P3H3rll0T0K8ey1X7dZWC-vgorAjt4DNxy1wt6HsTuwEkkZtgoPuiYsmuV7lgaz3pOn8ottaYzFVOL11MR2oI26hhovx7uirZ8AX1d9vaUhNLJieWFB_kvEs_uxijxjA" | Wait-Process
     Start-Process -filepath msiexec.exe -Wait -ErrorAction Stop -ArgumentList '/i', 'c:\temp\rdpbits\Microsoft.RDInfra.RDAgentBootLoader.Installer-x64.msi', '/quiet', "/qn", "/norestart", "/passive" | Wait-Process
     Write-Log "Agents have been run, check filepaths to confirm."
@@ -105,7 +105,7 @@ try {
 catch {
     $ErrorMessage = $_.Exception.Message
     Write-Log "Error with WVD agents: $ErrorMessage"
-}
+} #>
 
 #endregion
 
