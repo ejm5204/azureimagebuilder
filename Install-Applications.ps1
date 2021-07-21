@@ -81,26 +81,14 @@ catch {
 }
 #endregion
 
-<# #region regedit for FSLogix
+#region regedit for FSLogix
 New-ItemProperty -Path "HKLM:\Software\FSLogix\Profiles" -Name "VHDLocations" -Value "\\ejm5204azfiles.file.core.windows.net\ejm5204azfiles\profiles"
-#Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\RDInfraAgent" -Name "RegistrationToken" -Value "eyJhbGciOiJSUzI1NiIsImtpZCI6Ijk3NkE4Q0I1MTQwNjkyM0E4MkU4QUQ3MUYzQjE4NzEyN0Y2OTRDOTkiLCJ0eXAiOiJKV1QifQ.eyJSZWdpc3RyYXRpb25JZCI6IjAyYmRkMDhmLTk4ODktNDM4My04NjBkLWJjM2I1ODE4ZjU4YiIsIkJyb2tlclVyaSI6Imh0dHBzOi8vcmRicm9rZXItZy11cy1yMC53dmQubWljcm9zb2Z0LmNvbS8iLCJEaWFnbm9zdGljc1VyaSI6Imh0dHBzOi8vcmRkaWFnbm9zdGljcy1nLXVzLXIwLnd2ZC5taWNyb3NvZnQuY29tLyIsIkVuZHBvaW50UG9vbElkIjoiNDVlMTIxZWEtYWEwYy00MzA5LTgzMjItNjdiYjhiZjc0YTE0IiwiR2xvYmFsQnJva2VyVXJpIjoiaHR0cHM6Ly9yZGJyb2tlci53dmQubWljcm9zb2Z0LmNvbS8iLCJHZW9ncmFwaHkiOiJVUyIsIm5iZiI6MTYyNjcxNjY0OSwiZXhwIjoxNjI3OTI2MjQ2LCJpc3MiOiJSREluZnJhVG9rZW5NYW5hZ2VyIiwiYXVkIjoiUkRtaSJ9.h6gDrtBcuQdI9WYy5N9iMnfUEf536pgkP1iYUsO81GTL7f3AA6SW9BJbDCzSmjtzjHdpJynKrTzx8OgT-I0tn4oMi8X5xCJBKIbECqca1umq8fPn5bu3Y7cwNeECpzuNXepjy6_DQ1yB0hjgJxQPhyLkYl-iN2Bfc_vnfdJMGART-pBgJy7cgYHjc3ojJQD53Bcr5nSMpO2VsWFYIlXt7LtfqSof_MqU8wl1QAeuL3R6WqH1aX4ScwIbkvL6crAxPWum8DDKSh_w7QdcIh-57g3jrE3uN8XhkF-B0pNsz7THL8mehqD1qFlCShMK6Pf9Lhp3voZm4i2HGVf_H3mcfg"
 #endregion
 
-#region install and registration for WVD agents
-Set-AzContext "Dev"
-$resourceGroupName = "AVD"
-$Hostpool = "AVD_HostPool"
-$SubscriptionID = "c6973119-11cd-4828-ad30-5d84a7e7be7e"
-
-$hostPoolRegKey = (New-AzWvdRegistrationInfo -SubscriptionId $SubscriptionID -ResourceGroupName $resourceGroupName -HostPoolName $Hostpool -ExpirationTime (Get-Date).AddDays(14) -ErrorAction SilentlyContinue).Token
-Set-AzContext "AIRS"
-Get-AzWvdRegistrationInfo -SubscriptionId $SubscriptionID -ResourceGroupName $resourceGroupName -HostPoolName $Hostpool #>
-
 <# try {
-    Start-Process -filepath msiexec.exe -Wait -ErrorAction Stop -ArgumentList '/i', 'c:\temp\rdpbits\Microsoft.RDInfra.RDAgent.Installer-x64-1.0.2990.1500.msi', '/quiet', "/quiet", "/qn", "/norestart", "/passive", "REGISTRATIONTOKEN=eyJhbGciOiJSUzI1NiIsImtpZCI6Ijk3NkE4Q0I1MTQwNjkyM0E4MkU4QUQ3MUYzQjE4NzEyN0Y2OTRDOTkiLCJ0eXAiOiJKV1QifQ.eyJSZWdpc3RyYXRpb25JZCI6IjY0MzQwZDc5LTE3NWUtNDA0OS04ZmMwLTllOTJlMzVkN2M1NyIsIkJyb2tlclVyaSI6Imh0dHBzOi8vcmRicm9rZXItZy11cy1yMC53dmQubWljcm9zb2Z0LmNvbS8iLCJEaWFnbm9zdGljc1VyaSI6Imh0dHBzOi8vcmRkaWFnbm9zdGljcy1nLXVzLXIwLnd2ZC5taWNyb3NvZnQuY29tLyIsIkVuZHBvaW50UG9vbElkIjoiNDVlMTIxZWEtYWEwYy00MzA5LTgzMjItNjdiYjhiZjc0YTE0IiwiR2xvYmFsQnJva2VyVXJpIjoiaHR0cHM6Ly9yZGJyb2tlci53dmQubWljcm9zb2Z0LmNvbS8iLCJHZW9ncmFwaHkiOiJVUyIsIm5iZiI6MTYyNjc5ODYxMSwiZXhwIjoxNjI4MDA4MjA4LCJpc3MiOiJSREluZnJhVG9rZW5NYW5hZ2VyIiwiYXVkIjoiUkRtaSJ9.AOKhXBhqWXt5g6xVE9Bs29iGg4zdNPHKwvsYKJCxCfkW0BoknZHvCjSGs9pgoVh0p8vWnfwIJ2SnIwHaHBQMfSErLO3AGN-NtLSg-Rr46P6f1pNF-HkJk1gvjGs9XAhAic9OhG6Q8JEMJm2-HRFlIXN5WaOQSGvIyj5T490kWWIQ5T2L3z9qqe_iNTnwcuB8a5L5evDOjythfKINqm4os_P3H3rll0T0K8ey1X7dZWC-vgorAjt4DNxy1wt6HsTuwEkkZtgoPuiYsmuV7lgaz3pOn8ottaYzFVOL11MR2oI26hhovx7uirZ8AX1d9vaUhNLJieWFB_kvEs_uxijxjA" | Wait-Process
+    Start-Process -filepath msiexec.exe -Wait -ErrorAction Stop -ArgumentList '/i', 'c:\temp\rdpbits\Microsoft.RDInfra.RDAgent.Installer-x64-1.0.2990.1500.msi', '/quiet', "/quiet", "/qn", "/norestart", "/passive", "REGISTRATIONTOKEN=eyJhbGciOiJSUzI1NiIsImtpZCI6Ijk3NkE4Q0I1MTQwNjkyM0E4MkU4QUQ3MUYzQjE4NzEyN0Y2OTRDOTkiLCJ0eXAiOiJKV1QifQ.eyJSZWdpc3RyYXRpb25JZCI6IjUxZjkzNTc3LWMxYzMtNGVmNS1iOTYxLWM1MGQyYzc2NDI3MSIsIkJyb2tlclVyaSI6Imh0dHBzOi8vcmRicm9rZXItZy11cy1yMC53dmQubWljcm9zb2Z0LmNvbS8iLCJEaWFnbm9zdGljc1VyaSI6Imh0dHBzOi8vcmRkaWFnbm9zdGljcy1nLXVzLXIwLnd2ZC5taWNyb3NvZnQuY29tLyIsIkVuZHBvaW50UG9vbElkIjoiNDVlMTIxZWEtYWEwYy00MzA5LTgzMjItNjdiYjhiZjc0YTE0IiwiR2xvYmFsQnJva2VyVXJpIjoiaHR0cHM6Ly9yZGJyb2tlci53dmQubWljcm9zb2Z0LmNvbS8iLCJHZW9ncmFwaHkiOiJVUyIsIm5iZiI6MTYyNjg3NzY3NCwiZXhwIjoxNjI4MDg3MjY5LCJpc3MiOiJSREluZnJhVG9rZW5NYW5hZ2VyIiwiYXVkIjoiUkRtaSJ9.fMWDjXWLgJMMgOoamLICpu-8YrRjZvdsDUKIl87UWn0ucukJy3KonSxbqSUzKeOOXkJ5itK-ELi8RSfnmOanwKv-D-AOHWDE5CZ-nGHDU6Tfw96Pe4XV7oceavIuO2JTkX2GFSQ3qq_eTXLapj-G4uca71yoiHtSGG4oQAVKXzj_OkfVjrmOYi3Kn7IWS72F81fjKyWRTZ1FvW8AAoeyOClggMHtc4Ij9E0IZccW94he94izTO5Lp1AOmI91w4vLtqjPf44sKRsTs878CfhC7KWIcMVJ9d0ha-JWe3PU5mKYb5twMGZx10cDj22Ydbwe5UdsCXOdS4ShdWGWVmExHg" | Wait-Process
     Start-Process -filepath msiexec.exe -Wait -ErrorAction Stop -ArgumentList '/i', 'c:\temp\rdpbits\Microsoft.RDInfra.RDAgentBootLoader.Installer-x64.msi', '/quiet', "/qn", "/norestart", "/passive" | Wait-Process
-    Write-Log "Agents have been run, check filepaths to confirm."
-    Write-Log "New image update #3"
+    Write-Log "Host pool registration key added"
 }
 catch {
     $ErrorMessage = $_.Exception.Message
