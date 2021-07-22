@@ -96,7 +96,17 @@ catch {
 } #>
 
 #endregion
-Write-Log "This is a new build"
+Write-Log "Attempting to retrieve regkey..."
+try {
+    $hostPoolRegKey = (New-AzWvdRegistrationInfo -SubscriptionId $SubscriptionID -ResourceGroupName $resourceGroupName -HostPoolName $Hostpool -ExpirationTime (Get-Date).AddDays(14) -ErrorAction SilentlyContinue).Token
+    Write-Log $hostPoolRegKey
+}
+catch {
+    $ErrorMessage = $_.Exception.Message
+    Write-Log "Could not retrieve reg key: $ErrorMessage"
+}
+
+
 #region Sysprep Fix
 # Fix for first login delays due to Windows Module Installer
 try {
