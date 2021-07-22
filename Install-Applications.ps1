@@ -43,7 +43,7 @@ catch {
 Get-Item -Path 'HKEY_CURRENT_USER\SOFTWARE\Policies\Microsoft\Office\16.0\Teams' | New-Item -Name 'CloudType' -Value "" -Force
 #endregion
 
-#region O365 OPP
+<# #region O365 OPP
 
 try {
   & c:/ODT/ODT_tool.exe /quiet /extract:c:/ODT
