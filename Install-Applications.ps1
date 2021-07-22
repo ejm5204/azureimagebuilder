@@ -65,7 +65,7 @@ catch {
 }
 #endregion #>
 
-#region fslogix install
+<# #region fslogix install
 try {
     Start-Process -filepath msiexec.exe -Wait -ErrorAction Stop -ArgumentList '/i', 'c:\temp\FSLogix_Apps_2.9.7654.46150.zip\x64\Release\FSLogixAppsSetup.exe', '/quiet'
     if (Test-Path "C:\Program Files\FSLogix\Apps\frx.exe") {
@@ -79,7 +79,7 @@ catch {
     $ErrorMessage = $_.Exception.Message
     Write-Log "Error installing FSLogix: $ErrorMessage"
 }
-#endregion
+#endregion #>
 
 #region regedit for FSLogix
 New-ItemProperty -Path "HKLM:\Software\FSLogix\Profiles" -Name "VHDLocations" -Value "\\ejm5204azfiles.file.core.windows.net\ejm5204azfiles\profiles"
