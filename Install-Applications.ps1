@@ -43,13 +43,22 @@ catch {
 Get-Item -Path 'HKEY_CURRENT_USER\SOFTWARE\Policies\Microsoft\Office\16.0\Teams' | New-Item -Name 'CloudType' -Value "" -Force
 #endregion
 
-<# #region O365 OPP
+#region O365 OPP
 
 try {
-  & c:/ODT/ODT_tool.exe /quiet /extract:c:/ODT
-  Start-Process -filepath "setup.exe" -WorkingDirectory "c:\ODT" -ArgumentList '/download', 'c:/ODT/installOfficeProPlus64.xml' -Wait -ErrorAction Stop
-  #Start-Process -filepath "setup.exe" -WorkingDirectory "c:\ODT" -ArgumentList '/configure', 'c:/ODT/installOfficeProPlus64.xml' -Wait -ErrorAction SilentlyContinue
-  #Start-Process -filepath "setup.exe" -WorkingDirectory "c:\ODT" -ArgumentList '/configure', 'c:/ODT/installCustom.xml' -Wait -ErrorAction SilentlyContinue
+  #download ODT
+New-Item -path "c:\ODT" -ItemType Directory
+$url = "https://download.microsoft.com/download/2/7/A/27AF1BE6-DD20-4CB4-B154-EBAB8A7D4A7E/officedeploymenttool_14131-20278.exe"
+$output = "C:\ODT\ODT_tool.exe"
+Invoke-WebRequest -Uri $url -OutFile $output
+
+#extract ODT
+& c:/ODT/ODT_tool.exe /quiet /extract:c:/ODT
+
+#begin installation prorcess
+Start-Process -filepath "setup.exe" -WorkingDirectory "c:\ODT" -ArgumentList '/download', 'c:/ODT/configuration-Office2019Enterprise.xml' -Wait -ErrorAction Stop
+Start-Process -filepath "setup.exe" -WorkingDirectory "c:\ODT" -ArgumentList '/configure', 'c:/ODT/configuration-Office2019Enterprise.xml' -Wait -ErrorAction SilentlyContinue
+
   if (Test-Path "C:\Program Files\Microsoft Office") {
       Write-Log "Office has been installed"
   }
@@ -63,7 +72,7 @@ catch {
   write-log "Error installing Office: $ErrorMessage"
   write-log "Full error message: $fullErrorMessage"
 }
-#endregion #>
+#endregion
 
 <# #region fslogix install
 try {
