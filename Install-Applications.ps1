@@ -74,38 +74,9 @@ catch {
 }
 #endregion
 
-<# #region fslogix install
-try {
-    Start-Process -filepath msiexec.exe -Wait -ErrorAction Stop -ArgumentList '/i', 'c:\temp\FSLogix_Apps_2.9.7654.46150.zip\x64\Release\FSLogixAppsSetup.exe', '/quiet'
-    if (Test-Path "C:\Program Files\FSLogix\Apps\frx.exe") {
-        Write-Log "FSLogix has been installed"
-    }
-    else {
-        Write-Log "Error installing FSLogix"
-    }
-}
-catch {
-    $ErrorMessage = $_.Exception.Message
-    Write-Log "Error installing FSLogix: $ErrorMessage"
-}
-#endregion #>
-
 #region regedit for FSLogix
 New-ItemProperty -Path "HKLM:\Software\FSLogix\Profiles" -Name "VHDLocations" -Value "\\ejm5204azfiles.file.core.windows.net\ejm5204azfiles\profiles"
 #endregion
-
-<# try {
-    Start-Process -filepath msiexec.exe -Wait -ErrorAction Stop -ArgumentList '/i', 'c:\temp\rdpbits\Microsoft.RDInfra.RDAgent.Installer-x64-1.0.2990.1500.msi', '/quiet', "/quiet", "/qn", "/norestart", "/passive", "REGISTRATIONTOKEN=eyJhbGciOiJSUzI1NiIsImtpZCI6Ijk3NkE4Q0I1MTQwNjkyM0E4MkU4QUQ3MUYzQjE4NzEyN0Y2OTRDOTkiLCJ0eXAiOiJKV1QifQ.eyJSZWdpc3RyYXRpb25JZCI6IjUxZjkzNTc3LWMxYzMtNGVmNS1iOTYxLWM1MGQyYzc2NDI3MSIsIkJyb2tlclVyaSI6Imh0dHBzOi8vcmRicm9rZXItZy11cy1yMC53dmQubWljcm9zb2Z0LmNvbS8iLCJEaWFnbm9zdGljc1VyaSI6Imh0dHBzOi8vcmRkaWFnbm9zdGljcy1nLXVzLXIwLnd2ZC5taWNyb3NvZnQuY29tLyIsIkVuZHBvaW50UG9vbElkIjoiNDVlMTIxZWEtYWEwYy00MzA5LTgzMjItNjdiYjhiZjc0YTE0IiwiR2xvYmFsQnJva2VyVXJpIjoiaHR0cHM6Ly9yZGJyb2tlci53dmQubWljcm9zb2Z0LmNvbS8iLCJHZW9ncmFwaHkiOiJVUyIsIm5iZiI6MTYyNjg3NzY3NCwiZXhwIjoxNjI4MDg3MjY5LCJpc3MiOiJSREluZnJhVG9rZW5NYW5hZ2VyIiwiYXVkIjoiUkRtaSJ9.fMWDjXWLgJMMgOoamLICpu-8YrRjZvdsDUKIl87UWn0ucukJy3KonSxbqSUzKeOOXkJ5itK-ELi8RSfnmOanwKv-D-AOHWDE5CZ-nGHDU6Tfw96Pe4XV7oceavIuO2JTkX2GFSQ3qq_eTXLapj-G4uca71yoiHtSGG4oQAVKXzj_OkfVjrmOYi3Kn7IWS72F81fjKyWRTZ1FvW8AAoeyOClggMHtc4Ij9E0IZccW94he94izTO5Lp1AOmI91w4vLtqjPf44sKRsTs878CfhC7KWIcMVJ9d0ha-JWe3PU5mKYb5twMGZx10cDj22Ydbwe5UdsCXOdS4ShdWGWVmExHg" | Wait-Process
-    Start-Process -filepath msiexec.exe -Wait -ErrorAction Stop -ArgumentList '/i', 'c:\temp\rdpbits\Microsoft.RDInfra.RDAgentBootLoader.Installer-x64.msi', '/quiet', "/qn", "/norestart", "/passive" | Wait-Process
-    Write-Log "Host pool registration key added"
-}
-catch {
-    $ErrorMessage = $_.Exception.Message
-    Write-Log "Error with WVD agents: $ErrorMessage"
-} #>
-
-#endregion
-
 
 #region Sysprep Fix
 # Fix for first login delays due to Windows Module Installer
