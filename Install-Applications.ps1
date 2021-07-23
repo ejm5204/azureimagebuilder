@@ -4,8 +4,7 @@
 #
 # DoD Teams: https://dod.teams.microsoft.us/downloads/desktopurl?env=production&plat=windows&arch=x64&managedInstaller=true&download=true
 # O365 OPP
-# FSlogix
-# WVD Agents
+# FSLogix regedit (profile storage)
 # 
 # If the customer tenant is on the GCCH or DoD clouds, the customer should
 # set the intial endpoint in the registry by adding the CloudType value to
@@ -24,8 +23,18 @@ function Write-Log {
 }
 #endregion
 
+#region azcopy teams
+c:\temp\azcopy.exe copy 'https://ejm5204azfiles.blob.core.windows.net/softwareresources/DoD_Teams.zip?sp=r&st=2021-07-23T12:45:37Z&se=2021-07-30T20:45:37Z&spr=https&sv=2020-08-04&sr=b&sig=dKd0Hc2tRmAiSVY27rHOTCfftOeRSj1QyS0kI0A2nh8%3D' c:\temp\teamssoftware.zip
+Expand-Archive 'c:\temp\teamssoftware.zip' c:\temp
+#endregion
+
 #region DoD Teams
 try {
+    New-Item -path "c:\ODT" -ItemType Directory
+    $url = "https://dod.teams.microsoft.us/downloads/desktopurl?env=production&plat=windows&arch=x64&managedInstaller=true&download=true"
+    $output = "C:\temp\Teams_windows_x64.msi"
+    Invoke-WebRequest -Uri $url -OutFile $output
+    
     Start-Process -filepath msiexec.exe -Wait -ErrorAction Stop -ArgumentList '/i', 'c:\temp\Teams_windows_x64.msi', '/quiet'
     & "C:\Program Files (x86)\Teams Installer\Teams.exe"
     if (Test-Path "C:\Program Files (x86)\Teams Installer\Teams.exe") {
