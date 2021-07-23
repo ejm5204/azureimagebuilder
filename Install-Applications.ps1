@@ -96,15 +96,6 @@ catch {
 } #>
 
 #endregion
-Write-Log "Attempting to retrieve regkey..."
-try {
-    $hostPoolRegKey = (New-AzWvdRegistrationInfo -SubscriptionId $SubscriptionID -ResourceGroupName $resourceGroupName -HostPoolName $Hostpool -ExpirationTime (Get-Date).AddDays(14) -ErrorAction SilentlyContinue).Token
-    Write-Log $hostPoolRegKey
-}
-catch {
-    $ErrorMessage = $_.Exception.Message
-    Write-Log "Could not retrieve reg key: $ErrorMessage"
-}
 
 
 #region Sysprep Fix
