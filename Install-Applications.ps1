@@ -83,7 +83,7 @@ catch {
 New-ItemProperty -Path "HKLM:\Software\FSLogix\Profiles" -Name "VHDLocations" -Value "\\ejm5204azfiles.file.core.windows.net\ejm5204azfiles\profiles"
 #endregion
 
-Write-Log "This is a new image"
+Write-Log "Beginning sysprep..."
 
 #region Sysprep Fix
 # Fix for first login delays due to Windows Module Installer
