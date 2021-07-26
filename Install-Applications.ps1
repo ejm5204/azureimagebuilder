@@ -23,11 +23,6 @@ function Write-Log {
 }
 #endregion
 
-#region azcopy teams
-c:\temp\azcopy.exe copy 'https://ejm5204azfiles.blob.core.windows.net/softwareresources/DoD_Teams.zip?sp=r&st=2021-07-23T12:45:37Z&se=2021-07-30T20:45:37Z&spr=https&sv=2020-08-04&sr=b&sig=dKd0Hc2tRmAiSVY27rHOTCfftOeRSj1QyS0kI0A2nh8%3D' c:\temp\teamssoftware.zip
-Expand-Archive 'c:\temp\teamssoftware.zip' c:\temp
-#endregion
-
 #region DoD Teams
 try {
     New-Item -path "c:\ODT" -ItemType Directory
