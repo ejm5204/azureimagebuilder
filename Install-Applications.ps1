@@ -50,7 +50,6 @@ Get-Item -Path 'HKEY_CURRENT_USER\SOFTWARE\Policies\Microsoft\Office\16.0\Teams'
 #region O365 OPP
 
 try {
-  #download ODT
 #download ODT
 New-Item -path "c:\ODT" -ItemType Directory
 $url = "https://download.microsoft.com/download/2/7/A/27AF1BE6-DD20-4CB4-B154-EBAB8A7D4A7E/officedeploymenttool_14131-20278.exe"
