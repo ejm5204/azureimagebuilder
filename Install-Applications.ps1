@@ -82,7 +82,8 @@ catch {
 New-ItemProperty -Path "HKLM:\Software\FSLogix\Profiles" -Name "VHDLocations" -Value "\\ejm5204azfiles.file.core.windows.net\ejm5204azfiles\profiles"
 #endregion
 
-#region enable IIS feature
+<# #region enable IIS feature
+Write-Log "Enabling IIS role..."
 Enable-WindowsOptionalFeature -Online -FeatureName IIS-WebServerRole
 Enable-WindowsOptionalFeature -Online -FeatureName IIS-WebServer
 Enable-WindowsOptionalFeature -Online -FeatureName IIS-ApplicationDevelopment
@@ -97,8 +98,8 @@ Enable-WindowsOptionalFeature -Online -FeatureName IIS-StaticContent
 Enable-WindowsOptionalFeature -Online -FeatureName IIS-Security
 Enable-WindowsOptionalFeature -Online -FeatureName IIS-RequestFiltering
 Enable-WindowsOptionalFeature -Online -FeatureName IIS-HttpCompressionStatic
-
-#endregion
+Write-Log "IIS role enabled"
+#endregion #>
 
 Write-Log "Beginning sysprep..."
 
